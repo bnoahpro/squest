@@ -4,7 +4,7 @@ from django_tables2.views import SingleTableMixin
 from django.contrib.auth.models import User, Group
 from guardian.mixins import LoginRequiredMixin
 
-from profiles.filters.user_filter import UserFilter
+from profiles.filters.user_with_billing_filter import UserBillingGroupsFilter
 from profiles.tables.user_by_group_table import UserByGroupTable
 
 
@@ -13,7 +13,7 @@ class UserByGroupListView(LoginRequiredMixin, SingleTableMixin, FilterView):
     table_class = UserByGroupTable
     model = User
     template_name = 'generics/list.html'
-    filterset_class = UserFilter
+    filterset_class = UserBillingGroupsFilter
 
     def get_table_data(self, **kwargs):
         filtered = super().get_table_data().distinct()

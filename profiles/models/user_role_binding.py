@@ -1,3 +1,4 @@
+from gc import get_objects
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -50,4 +51,8 @@ def set_permission(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=UserRoleBinding)
 def unset_permission(sender, instance, **kwargs):
+    try:
+        self.get_objects()
+    except content_type.model_class.DoesNotExist:
+        return
     instance.remove_permissions()
